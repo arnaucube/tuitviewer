@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>info visualizer</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+
+<!-- (no cal pq ja estan les funcions i el css en aquest fitxer)
+<link rel='StyleSheet' type='text/css' href='estil.css'>
+<script src='funcions.js'></script>
+-->
+
+<!-- llibraries -->
+<script src="xml2json.js"></script>
+<!-- /llibraries -->
+
+
+
+<script>
+    function OnLoadApp()
+    {//function that runs on load the page
+    	InitializeObjectOFromXML();
+    	//MostraInfo();
+    }
+    function InitializeObjectOFromXML()
+    {//function to convert the xml object to a json object 'o'
+    	xmlDoc=LoadXMLDoc("dadestw.xml");
+    	ojson=xml2json(xmlDoc, "");
+    	o=JSON.parse(ojson);
+    }
+    function LoadXMLDoc(dname)
+    {
+    	if(window.XMLHttpRequest){
+    	  xhttp=new XMLHttpRequest();
+    	  }else{
+    		xhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    	  }
+    	xhttp.open("GET",dname,false);
+    	xhttp.send();
+    	return xhttp.responseXML;
+    }
+    function swModeClick()
+    {
+        if(document.getElementById("swmode").checked==true)
+        {
+            MostraInfoModeNormal();
+            document.getElementById("swmode").checked="";
+        }else if(document.getElementById("swmode").checked==false)
+        {
+            MostraInfoModeResumit();
+            document.getElementById("swmode").checked="true";
+        }
+    }
+    function MostraInfoModeNormal()
+    {
+    	var sortida="";
+    	document.getElementById("contingutInfo").innerHTML="";
+        //sortida+="<div class='botoMode' onclick='MostraInfoModeResumit()'>MostraInfo(Resum)</div>";
+    //	document.getElementById("contingutInfo").innerHTTML=o.root.llistaamics.amic.length;
+    	numbucle=o.root.llistatuits.tuit.length -1;
+    	for(i=numbucle; i>0; i--)
+    	{
+            if(o.root.llistatuits.tuit[i]["@retuits"]>5)
+            {
+        		sortida+= "<font color='#3C9166'>" + o.root.llistatuits.tuit[i]["@de"] + "</font>";
+                sortida+= " - <font color='#7a5752'>" + o.root.llistatuits.tuit[i]["@hora"] + "</font><br>";
+        		sortida+=o.root.llistatuits.tuit[i]["#text"] + "<br>";
+                if(o.root.llistatuits.tuit[i]["@imatge"])
+                {
+                    sortida+="<img class='imatge' src='"+o.root.llistatuits.tuit[i]["@imatge"]+"'/><br>";
+                }
+                sortida+="<font color='#51707b'>rt: " + o.root.llistatuits.tuit[i]["@retuits"] + "</font><br>";
+        		sortida+="<hr color='#343434'>";
+            }else{
+                sortida+= "<div style='background:#2c313a; color:#7d889c'><font color='#3C9166'>" + o.root.llistatuits.tuit[i]["@de"] + "</font>";
+                sortida+= " - <font color='#7a5752'>" + o.root.llistatuits.tuit[i]["@hora"] + "</font><br>";
+        		sortida+=o.root.llistatuits.tuit[i]["#text"] + "<br>";
+                if(o.root.llistatuits.tuit[i]["@imatge"])
+                {
+                    sortida+="<img class='imatge' src='"+o.root.llistatuits.tuit[i]["@imatge"]+"'/><br>";
+                }
+                sortida+="<font color='#51707b'>rt: " + o.root.llistatuits.tuit[i]["@retuits"] + "</font><br>";
+        		sortida+="</div><hr color='#343434'>";
+            }
+    	}
+    	document.getElementById("contingutInfo").innerHTML=sortida;
+    }
+    function MostraInfoModeResumit()
+    {
+        var sortida="";
+    	document.getElementById("contingutInfo").innerHTML="";
+        //sortida+="<div class='botoMode' onclick='MostraInfoModeNormal()'>MostraInfo(Normal)</div>";
+    	numbucle=o.root.llistatuits.tuit.length -1;
+    	for(i=numbucle; i>0; i--)
+    	{
+            //alert(o.root.llistatuits.tuit[i]["@retuits"]);
+            if(o.root.llistatuits.tuit[i]["@retuits"]>5)
+            {
+        		sortida+= "<font color='#3C9166'>" + o.root.llistatuits.tuit[i]["@de"] + "</font>";
+                sortida+= " - <font color='#7a5752'>" + o.root.llistatuits.tuit[i]["@hora"] + "</font><br>";
+        		sortida+=o.root.llistatuits.tuit[i]["#text"] + "<br>";
+                if(o.root.llistatuits.tuit[i]["@imatge"])
+                {
+                    sortida+="<img class='imatge' src='"+o.root.llistatuits.tuit[i]["@imatge"]+"'/><br>";
+                }
+                sortida+="<font color='#51707b'>rt: " + o.root.llistatuits.tuit[i]["@retuits"] + "</font><br>";
+        		sortida+="<hr color='#343434'>";
+            }
+    	}
+    	document.getElementById("contingutInfo").innerHTML=sortida;
+    }
+
+</script>
+
+<style>
+    html, body { /* sense marges ni padding */
+        margin: 0;
+        padding: 0;
+        /*background-color: #EDEEF0;*/
+        font-family: "Courier New", Courier, monospace;
+        background: #282c34;
+    }
+
+    .caixainfo{
+        background: #282c34;
+        color: #abb2bf;
+        /*border: 2px black solid;
+        margin-left: 100px;
+        margin-top: 10px;
+        width: 350px;
+        height: 630px;*/
+        /*overflow-y: scroll;*/
+    }
+    .botoMode{
+        background: #6f7a90;
+        width: 180px;
+        padding: 5px;
+        margin: 5px;
+        margin-left: auto;
+        font-weight: bold;
+        border-radius: 3px;
+    }
+
+    .imatge{
+        width: 400px;
+        height: 1px;
+        /*border: 1px solid #3b4044;*/
+        transition:all .1s linear;
+        filter: grayscale(100%);
+        border-radius: 8px;
+    }
+    .imatge:hover{
+        /*width: 400px;*/
+        height: auto;
+        transition:all .1s linear;
+        filter: grayscale(0%);
+    }
+
+
+    /*switcher small*/
+    .onoffswitch01 {
+        margin-left:440px;
+    	display: inline-block;
+    	position: relative; width: 40px;
+    	-webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+        transition:all .5s linear;
+    }
+    .onoffswitch01-checkbox {
+    	display: none;
+    }
+    .onoffswitch01-label {
+    	display: block; overflow: hidden; cursor: pointer;
+    	border: 2px solid #A0A5AB; border-radius: 36px;
+    }
+    .onoffswitch01-inner {
+    	display: block; width: 200%; margin-left: -100%;
+    	transition: margin 0.25s ease-in 0s;
+    }
+    .onoffswitch01-inner:before, .onoffswitch01-inner:after {
+    	display: block; float: left; width: 50%; height: 15px; padding: 0; line-height: 15px;
+    	font-size: 16px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    	box-sizing: border-box;
+    }
+    .onoffswitch01-inner:before {
+    	content: "";
+    	padding-left: 10px;
+    	background-color: #374d73; color: #FFFFFF;
+    }
+    .onoffswitch01-inner:after {
+    	content: "";
+    	padding-right: 10px;
+    	background-color: #CBCDCF; color: #666666;
+    	text-align: right;
+    }
+    .onoffswitch01-switch {
+    	display: block; width: 15px; margin: 0px;
+    	background: #FFFFFF;
+    	position: absolute; top: 0; bottom: 0;
+    	right: 21px;
+    	border: 2px solid #CCCCCC; border-radius: 36px;
+    	transition: all 0.25s ease-in 0s;
+    }
+    .onoffswitch01-checkbox:checked + .onoffswitch01-label .onoffswitch01-inner {
+    	margin-left: 0;
+    }
+    .onoffswitch01-checkbox:checked + .onoffswitch01-label .onoffswitch01-switch {
+    	right: 0px;
+    }
+</style>
+</head>
+<body onload="OnLoadApp()">
+
+<div class='onoffswitch01' onclick='swModeClick()'>
+    <input type='checkbox' name='onoffswitch01' class='onoffswitch01-checkbox' id='swmode' checked>
+    <label class='onoffswitch01-label' for='mode'>
+        <span class='onoffswitch01-inner'></span>
+        <span class='onoffswitch01-switch'></span>
+    </label>
+</div><br>
+  <div id="contingutInfo" class='caixainfo'>
+    <!--  <div class='botoMode' onclick='MostraInfoModeNormal()'>MostraInfo(Normal)</div>-->
+
+  </div>
+
+
+
+
+</body>
+</html>

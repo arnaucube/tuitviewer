@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>obrintnovafinestra</title>
+<meta charset="UTF-8" />
+<script>
+function enmarxa()
+{
+    myWindow = window.open("tuitsapp.html", "", "scrollbars=1, width=500, height=500");
+    //myWindow2= window.open('tuitsapp.html','winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=500,height=500');
+}
+</script>
+<style>
+    html, body { /* sense marges ni padding */
+        margin: 0;
+        padding: 0;
+        /*background-color: #EDEEF0;*/
+        font-family: "Courier New", Courier, monospace;
+        background: #252525;
+    }
+</style>
+
+</head>
+<body onload="enmarxa()">
+</body>
+</html>
