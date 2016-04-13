@@ -31,7 +31,8 @@ public_tweets = api.home_timeline(count=90)
 for tweet in reversed(public_tweets):
     print("::::::::::::::::")
     hora= tweet.created_at.strftime('%H')
-    hora= int(hora) + 1
+    #horari d'estiu
+    hora= int(hora) + 2
     emisor= tweet.user.name + " - @" + tweet.user.screen_name
     print(emisor  + " -" + str(hora) + ":" + tweet.created_at.strftime('%M:%S'))
     #continguttuit=tweet.text.encode('latin-1', 'ignore').decode('utf-8', 'ignore')
@@ -53,5 +54,6 @@ tree.write("dadestw.xml")
 
 print(" ")
 
-import webbrowser
-webbrowser.open_new('index.html')
+#OPCIÓ QUE OBRE AUTOMÀTICAMENT UNA FINESTRA DEL NAVEGADOR PER VISUALITZAR ELS TWEETS
+#import webbrowser
+#webbrowser.open_new('index.html')
